@@ -69,16 +69,16 @@ export default function Users1() {
     return (
         <main>
             <h1>
-                {users.length === 0 ? 'Loading' : users.map(user => (
+                {!(users.length === 0 || token.length === 0) ? users.map(user => (
                     <li key={user.id} className='text-base'>
                         <Link href={`/edit/${user.id}`}>
-                           <h1> {user.username}</h1>
+                            <h1> {user.username}</h1>
                         </Link>
                         <Link href={`/delete/${user.id}`}>
                             <h1>delete</h1>
                         </Link>
                     </li>
-                ))}
+                )) : 'Loading'}
             </h1>
         </main>
     );
