@@ -10,9 +10,9 @@ export default function Users1() {
 
     useEffect(() => {
         if (!token) {
-            loginUser();
+            loginUser().then();
         } else {
-            fetchUsers();
+            fetchUsers().then()
         }
     }, [token]);
 

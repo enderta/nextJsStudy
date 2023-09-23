@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-import Link from 'next/link';
 import { parseCookies } from 'nookies';
 import {useRouter} from "next/router";
 
@@ -22,7 +21,7 @@ export default function Edit(){
             })
                 .then((response) => response.json())
                 .then((data) => {
-                    setUser(data);
+                    setUser(data.data);
                 });
         }
     }, [id]);
@@ -30,7 +29,9 @@ export default function Edit(){
 
     return (
         <main>
-            <h1>edit</h1>
+            <h1>{
+                user.username
+            }</h1>
         </main>
     );
 }
