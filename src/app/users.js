@@ -1,17 +1,19 @@
 'use client';
-import {useEffect, useState} from "react";
-import Link from "next/link";
+import { useEffect, useState } from 'react';
+import Link from 'next/link';
+import { parseCookies, setCookie, destroyCookie } from 'nookies';
 
 export default function Users1() {
-    const [user, setUser] = useState([]);
-    const [token, setToken] = useState(localStorage.getItem('token'));
+    const [users, setUsers] = useState([]);
+    const cookies = parseCookies();
+    const [token, setToken] = useState(cookies.token || '');
 
     useEffect(() => {
-        loginUser();
-    }, []);
-
-    useEffect(() => {
-        if (token) fetchUsers();
+        if (!token) {
+            loginUser();
+        } else {
+            fetchUsers();
+        }
     }, [token]);
 
     const loginUser = async () => {
@@ -19,59 +21,65 @@ export default function Users1() {
             email: 'et1@gmail.com',
             password: '123456'
         };
-        const response = await fetch('/api/users/login', {
-            method: 'POST',
-            body: JSON.stringify(body),
-            headers: {
-                'Content-Type': 'application/json',
+        try {
+            const response = await fetch('/api/users/login', {
+                method: 'POST',
+                body: JSON.stringify(body),
+                headers: {
+                    'Content-Type': 'application/json',
+                }
+            });
+            const data = await response.json();
+            if (data && data.error) {
+                alert(data.message);
+            } else {
+                setCookie(null, 'token', data.token, {
+                    maxAge: 30 * 24 * 60 * 60,
+                    path: '/',
+                });
+                setToken(data.token);
             }
-        });
-        const data = await response.json();
-        if (data && data.error) {
-            alert(data.message);
-        } else {
-            localStorage.setItem('token', data.token);
-            setToken(data.token);
+        } catch (error) {
+            console.log('Login error: ', error);
         }
     };
 
     const fetchUsers = async () => {
-        const response = await fetch('/api/users', {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': token
+        try {
+            const response = await fetch('/api/users', {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': token
+                }
+            });
+            const data = await response.json();
+            if (data && data.error) {
+                destroyCookie(null, 'token');
+                setToken('');
+                alert(data.message);
+            } else {
+                setUsers(data.data);
             }
-        });
-        const data = await response.json();
-        if (data && data.error) {
-            alert(data.message);
-        } else {
-            setUser(data.data);
+        } catch (error) {
+            console.log('Fetch users error: ', error);
         }
     };
-  user.map((user) => (
-      console.log(user.id)
-    ))
 
     return (
-        <main >
+        <main>
             <h1>
-                {user.length===0?"Loading" : user.map((user) => (
-
-                            <li key={user.id} className='text-base'>
-                              <Link href={`/edit/${user.id}`}>
-                                  {user.username}
-                                </Link>
-                            </li>
-
-                    )
-                )}
-
+                {users.length === 0 ? 'Loading' : users.map(user => (
+                    <li key={user.id} className='text-base'>
+                        <Link href={`/edit/${user.id}`}>
+                           <h1> {user.username}</h1>
+                        </Link>
+                        <Link href={`/delete/${user.id}`}>
+                            <h1>delete</h1>
+                        </Link>
+                    </li>
+                ))}
             </h1>
-
-
         </main>
-    )
+    );
 }
-
