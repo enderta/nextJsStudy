@@ -29,9 +29,18 @@ export default function Edit(){
 
     return (
         <main>
-            <h1>{
-                user.username
-            }</h1>
+            {
+                user.length!==0 ? (
+                    <div>
+<h2>Edit Page for Profile {id}</h2>
+                        <h2>{user.username}</h2>
+                    </div>
+                ) : (
+                    <div>
+                        <h2>Loading...</h2>
+                    </div>
+                )
+            }
         </main>
     );
 }
