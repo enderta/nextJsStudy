@@ -1,6 +1,6 @@
-import './globals.css'
+
 import { Inter } from 'next/font/google'
-import 'react-bootstrap/dist/react-bootstrap.min.js'
+
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata = {
