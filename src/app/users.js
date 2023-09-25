@@ -7,6 +7,7 @@ export default function Users1() {
     const [users, setUsers] = useState([]);
     const cookies = parseCookies();
     const [token, setToken] = useState(cookies.token || '');
+    const [message, setMessage] = useState('');
 
     useEffect(() => {
         if (!token) {
@@ -57,7 +58,7 @@ export default function Users1() {
             if (data && data.error) {
                 destroyCookie(null, 'token');
                 setToken('');
-                alert(data.message);
+                setMessage(data.message);
             } else {
                 setUsers(data.data);
             }
@@ -70,7 +71,7 @@ export default function Users1() {
     return (
         <main>
             <h1>
-                {!(users.length === 0 || token.length === 0) ? users.map(user => (
+                {!(users.length === 0 || token.length === 0|| message.length!==0) ? users.map(user => (
                     <li key={user.id} className='text-base'>
                         <Link href={`/edit/${user.id}`}>
                             <h1> {user.username}</h1>
