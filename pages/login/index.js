@@ -61,7 +61,7 @@ export default function Login(){
 
     const handleSubmit = e => {
         e.preventDefault();
-       window.location = '/home';
+        window.location = '/home';
     }
 
 
@@ -132,5 +132,3 @@ export default function Login(){
 
     );
 }
-
-

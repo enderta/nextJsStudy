@@ -5,44 +5,45 @@ import { parseCookies, setCookie, destroyCookie } from 'nookies';
 
 export default function Users1() {
     const [users, setUsers] = useState([]);
+    const [jobs, setJobs] = useState([]);
     const cookies = parseCookies();
-    const [token, setToken] = useState(cookies.token || '');
-    const [message, setMessage] = useState('');
+    const token = cookies.token; // get the token from cookies
+    console.log(token)
 
     useEffect(() => {
-        if (!token) {
-            loginUser().then();
-        } else {
-            fetchUsers().then()
-        }
+
+        fetchUsers().then()
+
     }, [token]);
 
-    const loginUser = async () => {
-        const body = {
-            email: 'et1@gmail.com',
-            password: '123456'
-        };
-        try {
-            const response = await fetch('/api/users/login', {
-                method: 'POST',
-                body: JSON.stringify(body),
+    useEffect(() => {
+
+        fetchJobs().then()
+
+    }, [token]);
+
+
+    const fetchJobs = async () => {
+        try{
+            const response = await fetch('/api/jobs', {
+                method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
+                    'Authorization': token
                 }
             });
             const data = await response.json();
             if (data && data.error) {
+                destroyCookie(null, 'token');
                 alert(data.message);
-            } else {
-                setCookie(null, 'token', data.token, {
-                    maxAge: 30 * 24 * 60 * 60,
-                    path: '/',
-                });
-                setToken(data.token);
+            }
+            else {
+                setJobs(data.data);
             }
         } catch (error) {
-            console.log('Login error: ', error);
+            console.log('Fetch jobs error: ', error);
         }
+
     };
 
     const fetchUsers = async () => {
@@ -57,8 +58,7 @@ export default function Users1() {
             const data = await response.json();
             if (data && data.error) {
                 destroyCookie(null, 'token');
-                setToken('');
-                setMessage(data.message);
+                alert(data.message);
             } else {
                 setUsers(data.data);
             }
@@ -67,11 +67,12 @@ export default function Users1() {
         }
     };
     console.log(token)
+    console.log(jobs)
 
     return (
         <main>
             <h1>
-                {!(users.length === 0 || token.length === 0|| message.length!==0) ? users.map(user => (
+                {!(users.length === 0 || token.length === 0) ? users.map(user => (
                     <li key={user.id} className='text-base'>
                         <Link href={`/edit/${user.id}`}>
                             <h1> {user.username}</h1>

@@ -1,10 +1,10 @@
-import Users1 from "@/app/users";
+import Users1 from "../../pages/home/users";
 
 export default function Home() {
 
     return (
         <main>
-        <Users1/>
+            <Users1/>
         </main>
     )
 }
