@@ -1,10 +1,12 @@
-import Users1 from "../../pages/home/users";
+import React from 'react';
+
+import Home2 from "../../pages/home/home";
 
 export default function Home() {
 
     return (
         <main>
-            <Users1/>
+            <Home2/>
         </main>
     )
 }

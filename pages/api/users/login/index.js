@@ -5,10 +5,10 @@ import jwt from 'jsonwebtoken';
 const prisma = new PrismaClient();
 
 // New function for login
-const loginUser = async (email, password) => {
+const loginUser = async (username, password) => {
     const user = await prisma.users.findUnique({
         where: {
-            email: email,
+          username:username
         }
     });
 
@@ -34,9 +34,9 @@ const loginUser = async (email, password) => {
 // Original function now use loginUser
 const user = async (req, res) => {
     if (req.method === "POST") {
-        const { email, password } = req.body;  // This line here
+        const { username, password } = req.body;  // This line here
         try {
-            const response = await loginUser(email, password);  // And this one here
+            const response = await loginUser(username, password);  // And this one here
             res.json(response);
         } catch (err) {
             console.error(err);

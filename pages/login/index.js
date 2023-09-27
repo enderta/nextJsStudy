@@ -4,52 +4,18 @@ import { useEffect, useState } from 'react'
 import { setCookie } from 'nookies'
 import 'bootstrap/dist/css/bootstrap.min.css';
 export default function Login(){
-    const [email, setEmail] = useState('');
+    const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [token, setToken] = useState('');
     const [loginError, setLoginError] = useState('');
 
-
-    useEffect(() => {
-        if (token) {
-            // Provided fetchUsers() is defined somewhere
-            fetchUsers().then(() => {/*your code here*/}); // Do something after fetching users
-        }
-    }, [token]);
-
-    const loginUser = async () => {
-        const body = {
-            email: email,
-            password: password
-        };
-        try {
-            const response = await fetch('/api/users/login', {
-                method: 'POST',
-                body: JSON.stringify(body),
-                headers: {
-                    'Content-Type': 'application/json',
-                }
-            });
-            if (!response.ok) throw new Error("Server Response: " + response.statusText);
-            const data = await response.json();
-            setCookie(null, 'token', data.token, {
-                maxAge: 30 * 24 * 60 * 60,
-                path:'/'
-            });
-
-            setToken(data.token);
-        } catch (error) {
-            console.log('Login error: ', error);
-            setLoginError(error.toString());
-        }
-    };
 
     const handleChanges = e => {
         const { name, value } = e.target;
 
         switch(name) {
             case 'username':
-                setEmail(value);
+                setUsername(value);
                 break;
             case 'password':
                 setPassword(value);
@@ -61,7 +27,32 @@ export default function Login(){
 
     const handleSubmit = e => {
         e.preventDefault();
-        window.location = '/home';
+       fetch('api/users/login', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+            ,
+            body: JSON.stringify({
+                username: username,
+                password: password
+            }
+            )
+        })
+            .then(response => response.json())
+            .then(data => {
+                if (data && data.error) {
+                    setLoginError(data.message);
+                }
+                else {
+                    setCookie(null, 'token', data.token, {
+                        maxAge: 30 * 24 * 60 * 60,
+                        path: '/',
+                    });
+                    setToken(data.token);
+                }
+            })
+        window.location = '/users';
     }
 
 
@@ -93,7 +84,7 @@ export default function Login(){
                                         type="text"
                                         placeholder="Enter user name"
                                         name="username"
-                                        value={email}
+                                        value={username}
                                         data-testid="username"
                                         onChange={handleChanges}
                                     />

@@ -19,24 +19,25 @@ import Link from "next/link";
 
 
 export default function User1() {
-    const [jobs, setJobs] = useState([]);
+    /*const [jobs, setJobs] = useState([]);
     const [loading, setLoading] = useState(true);
     //const [darkMode, setDarkMode] = useDarkMode();
     const [show, setShowModal] = useState(false);
     const [isOpen, setIsOpen] = useState(false);
-    const [jumboData, setJumboData] = useState({});
+    const [jumboData, setJumboData] = useState({});*/
     const cookies = parseCookies();
+    console.log(cookies)
     const token = cookies.token; // get the token from cookies
     console.log(token)
 
-    useEffect(() => {
+   /* useEffect(() => {
 
         fetchJobs().then()
 
     }, [token]);
+*/
 
-
-    const fetchJobs = async () => {
+   /* const fetchJobs = async () => {
         try{
             const response = await fetch('/api/jobs', {
                 method: 'GET',
@@ -47,7 +48,7 @@ export default function User1() {
             });
             const data = await response.json();
             if (data && data.error) {
-                destroyCookie(null, 'token');
+                //destroyCookie(null, 'token');
                 alert(data.message);
             }
             else {
@@ -59,7 +60,7 @@ export default function User1() {
 
     };
 
-
+*/
     /* const handleModalToggle = () => setShowModal(!show);
 
      const handleJumboClick = (id) => {
@@ -77,28 +78,28 @@ export default function User1() {
             <div>
                 <ScrollToTop/>
 
-                    <div>
+                  {/*  <div>
 
 
                         {loading ? (<h1>Loading...</h1>) : (
 
                             <JumbotronBackground>
-                                {/* <JobCarousel
+                                 <JobCarousel
                                     jobs={jobs}
                                     darkMode={darkMode}
                                     isOpen={isOpen}
                                     openModal={handleJumboClick}
                                     closeModal={() => setIsOpen(false)}
                                     selectedJob={jumboData}
-                                />*/}
+                                />
                             </JumbotronBackground>
                         )}
                         <div className="d-flex justify-content-between">
-                            {/*  <AddJobButton darkMode={darkMode} handleShow={handleModalToggle}/>
-                            <DarkModeButton darkMode={darkMode} handleDarkMode={handleDarkMode}/>*/}
+                              <AddJobButton darkMode={darkMode} handleShow={handleModalToggle}/>
+                            <DarkModeButton darkMode={darkMode} handleDarkMode={handleDarkMode}/>
                         </div>
 
-                        {/*  <AddJobs show={show} handleClose={handleModalToggle}/>*/}
+                          <AddJobs show={show} handleClose={handleModalToggle}/>
 
                         <div style={{margin: '10px'}}>
                             <Container>
@@ -109,7 +110,7 @@ export default function User1() {
                                             {
                                                 jobs.map((job) => (
                                                     <h1 key={job.id}>
-                                                        <Link href={`/edit/${job.id}`}>
+                                                        <Link href={`/jobcard/${job.id}`}>
                                                             <h1> {job.title}</h1>
                                                         </Link>
                                                         <Link href={`/delete/${job.id}`}>
@@ -131,7 +132,7 @@ export default function User1() {
 
 
                     </div>
-
+*/}
             </div>
 
         </>
