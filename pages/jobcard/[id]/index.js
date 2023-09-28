@@ -1,15 +1,13 @@
 import { useEffect, useState } from 'react';
 import { parseCookies } from 'nookies';
 import {useRouter} from "next/router";
+import {getCookie} from "cookies-next";
 import 'react-responsive-carousel/lib/styles/carousel.min.css';
 export default function Card(){
     const router = useRouter();
     const { id } = router.query;
     const [job,setJob]=useState([]);
-
-    const cookies = parseCookies();
-    const token = cookies.token; // get the token from cookies
-
+    const token= getCookie("token");
     useEffect(() => {
         if (id) {
             fetch(`/api/jobs/${id}`, {

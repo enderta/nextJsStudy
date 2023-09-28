@@ -1,74 +1,37 @@
 'use client'
+
 import React, {useEffect, useState} from 'react';
-import {Container,Card} from 'react-bootstrap';
-/*import AddJobs from './AddJobs';
-import Cards from './Cards';
-import useDarkMode from './useDarkMode';
-import JobCarousel from './JobCarousel';
-import LogInRedirect from './LogInRedirect';
-import DarkModeButton from './DarkModeButton';
-import AddJobButton from './AddJobButton';*/
+import {Container, Card, Button, Modal} from 'react-bootstrap';
 import JumbotronBackground from '../main/JumbotronBackground';
-import LogOut from "../main/LogOut";
 import ScrollToTop from "../main/ScrollToTop";
-import {destroyCookie, parseCookies} from "nookies";
-import {Button, Modal} from 'react-bootstrap';
-import 'react-responsive-carousel/lib/styles/carousel.min.css';
 import Link from "next/link";
-
-
+import {getCookie} from "cookies-next";
 
 export default function User1() {
     const [jobs, setJobs] = useState([]);
     const [loading, setLoading] = useState(true);
-    //const [darkMode, setDarkMode] = useDarkMode();
-    const [show, setShowModal] = useState(false);
-    const [isOpen, setIsOpen] = useState(false);
-    const [jumboData, setJumboData] = useState({});
-    const cookies = parseCookies();
-    console.log(cookies)
-    const token = cookies.token; // get the token from cookies
+
+    const token= getCookie("token");
     console.log(token)
 
-     useEffect(() => {
+    useEffect(() => {
+        fetch('/api/jobs', {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': token
+            }
+})
+            .then((response) => response.json())
+            .then((data) => {
+                setJobs(data.data);
+                setLoading(false);
+            }
+            );
+    }, [token]);
 
-         fetchJobs().then()
 
-     }, [token]);
 
-     const fetchJobs = async () => {
-         try{
-             const response = await fetch('/api/jobs', {
-                 method: 'GET',
-                 headers: {
-                     'Content-Type': 'application/json',
-                     'Authorization': token
-                 }
-             });
-             const data = await response.json();
-             if (data && data.error) {
-                 //destroyCookie(null, 'token');
-                 alert(data.message);
-             }
-             else {
-                 setJobs(data.data);
-             }
-         } catch (error) {
-             console.log('Fetch jobs error: ', error);
-         }
-
-     };
-
-     const handleModalToggle = () => setShowModal(!show);
-
-     const handleJumboClick = (id) => {
-         setIsOpen(true);
-         const selectedJumbo = jobs.find((job) => job.id === id);
-         setJumboData(selectedJumbo);
-     };
-
-    //const handleDarkMode = () => setDarkMode(!darkMode);
-    console.log(cookies)
 
     return (
         <>

@@ -1,59 +1,49 @@
 'use strict'
-import {Button, Card, Form, Image} from "react-bootstrap";
+// Header imports
 import { useEffect, useState } from 'react'
-import { setCookie } from 'nookies'
+import {Button, Card, Form, Image} from "react-bootstrap";
+import { setCookie } from "cookies-next";
 import 'bootstrap/dist/css/bootstrap.min.css';
+
+// Constants
+const API_URL = 'api/users/login';
+const CONTENT_TYPE = 'application/json';
+const EXPIRES_DATE = new Date(Date.now() + 1000 * 60 * 60 * 24 * 7);
 export default function Login(){
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
-    const [token, setToken] = useState('');
-    const [loginError, setLoginError] = useState('');
-
+    const [loginError, setError] = useState(null);
 
     const handleChanges = e => {
         const { name, value } = e.target;
+        if (name === 'username') setUsername(value);
+        else setPassword(value);
+    }
 
-        switch(name) {
-            case 'username':
-                setUsername(value);
-                break;
-            case 'password':
-                setPassword(value);
-                break;
-            default:
-                break;
+
+
+
+    const handleSubmit = async e => {
+        e.preventDefault();
+
+        const response = await fetch(API_URL, {
+            method: 'POST',
+            headers: {'Content-Type': CONTENT_TYPE},
+            body: JSON.stringify({username, password}),
+        });
+
+        const data = await response.json();
+
+        if (data.error) {
+            setError(data.message);
+        } else {
+            setCookie("token", data.token, {
+                expires: EXPIRES_DATE
+            });
+            window.location = '/users';
         }
     }
 
-    const handleSubmit = e => {
-        e.preventDefault();
-       fetch('api/users/login', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            }
-            ,
-            body: JSON.stringify({
-                username: username,
-                password: password
-            }
-            )
-        })
-            .then(response => response.json())
-            .then(data => {
-                if (data && data.error) {
-                    setLoginError(data.message);
-                }
-                else {
-                    setCookie(null, 'token', data.token, {
-                        maxAge: 30 * 24 * 60 * 60,
-                        path: '/',
-                    });
-                    setToken(data.token);
-                }
-            })
-        window.location = '/users';
-    }
 
 
     return (

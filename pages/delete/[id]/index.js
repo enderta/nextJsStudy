@@ -3,11 +3,13 @@
 import { useEffect, useState } from 'react';
 import { parseCookies } from 'nookies';
 import {useRouter} from "next/router";
+import {getCookie} from "cookies-next";
 
 export default function Edit(){
+    const token= getCookie("token");
     const router = useRouter();
     const { id } = router.query;
-    const token = parseCookies().token; // get the token from cookies
+
     console.log(token)
 
     return (
