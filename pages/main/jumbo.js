@@ -1,3 +1,4 @@
+/*
 'use client';
 import { useEffect, useState } from 'react';
 import { parseCookies, setCookie, destroyCookie } from 'nookies';
@@ -7,6 +8,9 @@ import ScrollToTop from "./ScrollToTop";
 import {Container} from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Link from "next/link";
+import AddJobButton from "./AddJobButton";
+import DarkModeButton from "./DarkModeButton";
+import AddJobs from "./AddJobs";
 
 function LogOut() {
     const [token, setToken] = useState('');
@@ -117,15 +121,15 @@ const Jumbo = () => {
                             </JumbotronBackground>
                         )}
                         <div className="d-flex justify-content-between">
-                          {/*  <AddJobButton.js darkMode={darkMode} handleShow={handleModalToggle}/>
-                            <DarkModeButton darkMode={darkMode} handleDarkMode={handleDarkMode}/>*/}
+                            <AddJobButton darkMode={darkMode} handleShow={handleModalToggle}/>
+                            <DarkModeButton darkMode={darkMode} handleDarkMode={handleDarkMode}/>
                         </div>
 
-                      {/*  <AddJobs show={show} handleClose={handleModalToggle}/>*/}
+                        <AddJobs show={show} handleClose={handleModalToggle}/>
 
                         <div style={{margin: '10px'}}>
                             <Container>
-                               {/* <Cards data={jobs} setData={setJobs} dark={darkMode}/>*/}
+                               {/!* <Cards data={jobs} setData={setJobs} dark={darkMode}/>*!/}
                                 <div style={{bottom: "10px", left: "10px"}}>
                                     <LogOut/>
                                 </div>
@@ -146,3 +150,4 @@ const Jumbo = () => {
     );
 };
 
+*/

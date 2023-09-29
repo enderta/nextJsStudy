@@ -1,17 +1,19 @@
 import React, {useState} from 'react';
 import {Button, Form, Modal} from 'react-bootstrap';
+import {parseCookies} from "nookies";
 
-
+const cookies = parseCookies();
+const token = cookies.token; // get the token from cookies
+const user_id = cookies.user_id;
 async function addJob(job) {
-    return await fetch("https://jobsapi-topaz.vercel.app/api/" + job.user_id + "/jobs", {
+    return await fetch(`http://localhost:3000/api/jobs/create/${user_id}`, {
         method: 'POST',
-        headers: {'Content-Type': 'application/json', Authorization: localStorage.getItem('token')},
+        headers: {'Content-Type': 'application/json', Authorization: token},
         body: JSON.stringify(job),
     });
 }
 
 const currentDate = new Date().toISOString().split(' ').slice(0, 4).join(' ');
-const user_id = localStorage.getItem('user_id');
 
 function AddJobs(props) {
 
@@ -24,7 +26,6 @@ function AddJobs(props) {
         is_applied: false,
         posted_at: currentDate,
         updated_at: currentDate,
-        user_id,
     };
 
 // Initialize state
@@ -46,13 +47,7 @@ function AddJobs(props) {
 
     return (
         <div className="container">
-            <Modal show={props.show} onHide={props.handleClose}>
-                <Modal.Header closeButton>
-                    <Modal.Title>
-                        <h3 style={{color: "black"}}>Add Job</h3>
-                    </Modal.Title>
-                </Modal.Header>
-                <Modal.Body>
+
                     <Form style={{color: "black"}}>
                         <Form.Group controlId="formBasicEmail">
                             <Form.Label>Title</Form.Label>
@@ -91,20 +86,13 @@ function AddJobs(props) {
                                           onChange={handleChanges}/>
                         </Form.Group>
                     </Form>
-                </Modal.Body>
-                <Modal.Footer>
+                    <Button variant="primary" type="submit" onClick={onSubmitForm}>
+Submit
+                        </Button>
                     <Button variant="secondary" onClick={props.handleClose}>
                         Close
-                    </Button>
-                    <div>
-                        <Button variant="primary" onClick={onSubmitForm}
-
-                                data-testid={"submit-button"}>
-                            Save Changes
                         </Button>
-                    </div>
-                </Modal.Footer>
-            </Modal>
+
         </div>
     );
 }

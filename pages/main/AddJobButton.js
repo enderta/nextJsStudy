@@ -5,7 +5,11 @@ const AddJobButton = ({darkMode, handleShow}) => (
     <div style={{position: "relative"}}>
         <Button
             variant={darkMode ? 'outline-warning' : 'outline-dark'}
-            onClick={handleShow}
+            onClick={
+                ()=>{
+                    window.location.href="/addjob"
+                }
+            }
             data-testid={"addJobs"}
         >
             +

@@ -12,9 +12,6 @@ import DarkModeButton from "../main/DarkModeButton";
 import useDarkMode from "../main/useDarkMode";
 import AddJobs from "../main/AddJobs";
 
-function AddJobs(props) {
-    return null;
-}
 
 
 export default function User1() {
@@ -80,7 +77,9 @@ export default function User1() {
                             <DarkModeButton darkMode={darkMode} handleDarkMode={handleDarkMode}/>
                         </div>
 
-                          <AddJobs show={show} handleClose={handleModalToggle}/>
+                          <AddJobs onClick={()=>{
+                              window.location.href="/addjob"
+                          }}/>
 
                         <div style={{margin: '10px'}}>
                             <Container>
