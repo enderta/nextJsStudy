@@ -6,11 +6,22 @@ import JumbotronBackground from '../main/JumbotronBackground';
 import ScrollToTop from "../main/ScrollToTop";
 import Link from "next/link";
 import {getCookie} from "cookies-next";
+import JobCarousel from "../main/JobCarousel";
+import AddJobButton from "../main/AddJobButton";
+import DarkModeButton from "../main/DarkModeButton";
+import useDarkMode from "../main/useDarkMode";
+import AddJobs from "../main/AddJobs";
+
+function AddJobs(props) {
+    return null;
+}
+
 
 export default function User1() {
     const [jobs, setJobs] = useState([]);
     const [loading, setLoading] = useState(true);
-
+    const [jumboData, setJumboData] = useState({});
+    const [darkMode, setDarkMode] = useDarkMode();
     const token= getCookie("token");
     console.log(token)
 
@@ -29,9 +40,17 @@ export default function User1() {
             }
             );
     }, [token]);
+    const handleDarkMode = () => setDarkMode(!darkMode);
 
+     const handleModalToggle = () => setShowModal(!show);
 
-
+        const handleJumboClick = (id) => {
+            setIsOpen(true);
+            const selectedJumbo = jobs.find((job) => job.id === id);
+            setJumboData(selectedJumbo);
+        };
+    const [show, setShowModal] = useState(false);
+    const [isOpen, setIsOpen] = useState(false);
 
     return (
         <>
@@ -46,22 +65,22 @@ export default function User1() {
                         {loading ? (<h1>Loading...</h1>) : (
 
                             <JumbotronBackground>
-                                {/* <JobCarousel
+                                 <JobCarousel
                                     jobs={jobs}
                                     darkMode={darkMode}
                                     isOpen={isOpen}
                                     openModal={handleJumboClick}
                                     closeModal={() => setIsOpen(false)}
                                     selectedJob={jumboData}
-                                />*/}
+                                />
                             </JumbotronBackground>
                         )}
                         <div className="d-flex justify-content-between">
-                           {/*   <AddJobButton darkMode={darkMode} handleShow={handleModalToggle}/>
-                            <DarkModeButton darkMode={darkMode} handleDarkMode={handleDarkMode}/>*/}
+                              <AddJobButton darkMode={darkMode} handleShow={handleModalToggle}/>
+                            <DarkModeButton darkMode={darkMode} handleDarkMode={handleDarkMode}/>
                         </div>
 
-                       {/*   <AddJobs show={show} handleClose={handleModalToggle}/>*/}
+                          <AddJobs show={show} handleClose={handleModalToggle}/>
 
                         <div style={{margin: '10px'}}>
                             <Container>

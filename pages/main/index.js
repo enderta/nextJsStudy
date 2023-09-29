@@ -7,7 +7,7 @@ import useDarkMode from './useDarkMode';
 import JobCarousel from './JobCarousel';
 import LogInRedirect from './LogInRedirect';
 import DarkModeButton from './DarkModeButton';
-import AddJobButton from './AddJobButton';*/
+import AddJobButton.js from './AddJobButton.js';*/
 import JumbotronBackground from './JumbotronBackground';
 import LogOut from "./LogOut";
 import ScrollToTop from "./ScrollToTop";
@@ -95,7 +95,7 @@ export default function User1() {
                             </JumbotronBackground>
                         )}
                         <div className="d-flex justify-content-between">
-                              <AddJobButton darkMode={darkMode} handleShow={handleModalToggle}/>
+                              <AddJobButton.js darkMode={darkMode} handleShow={handleModalToggle}/>
                             <DarkModeButton darkMode={darkMode} handleDarkMode={handleDarkMode}/>
                         </div>
 

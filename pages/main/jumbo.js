@@ -117,7 +117,7 @@ const Jumbo = () => {
                             </JumbotronBackground>
                         )}
                         <div className="d-flex justify-content-between">
-                          {/*  <AddJobButton darkMode={darkMode} handleShow={handleModalToggle}/>
+                          {/*  <AddJobButton.js darkMode={darkMode} handleShow={handleModalToggle}/>
                             <DarkModeButton darkMode={darkMode} handleDarkMode={handleDarkMode}/>*/}
                         </div>
 
