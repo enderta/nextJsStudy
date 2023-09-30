@@ -39,7 +39,7 @@ export default function User1() {
     }, [token]);
     const handleDarkMode = () => setDarkMode(!darkMode);
 
-     const handleModalToggle = () => setShowModal(!show);
+
 
         const handleJumboClick = (id) => {
             setIsOpen(true);
@@ -73,13 +73,11 @@ export default function User1() {
                             </JumbotronBackground>
                         )}
                         <div className="d-flex justify-content-between">
-                              <AddJobButton darkMode={darkMode} handleShow={handleModalToggle}/>
+                              <AddJobButton darkMode={darkMode}/>
                             <DarkModeButton darkMode={darkMode} handleDarkMode={handleDarkMode}/>
                         </div>
 
-                          <AddJobs onClick={()=>{
-                              window.location.href="/addjob"
-                          }}/>
+
 
                         <div style={{margin: '10px'}}>
                             <Container>

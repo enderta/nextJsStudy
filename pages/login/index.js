@@ -79,6 +79,7 @@ export default function Login() {
                                     value={credential.password}
                                     handleChange={handleFieldChange}
                                 />
+                                <br/>
 
                                 <div className="d-flex justify-content-between">
                                     <ButtonWrapper variant={'outline-warning'} testId={'login'} type="submit"> Login </ButtonWrapper>
